@@ -36,15 +36,15 @@ socket.on('user-disconnected', userId => {
     check.pop(userId)
 })
 
-peer.on('open', id1 => {
-    socket.emit('join-room', id, id1)
+peer.on('open', user_ID => {
+    socket.emit('join-room', id, user_ID)//id is room ID,
 })
 function connectToNewUser(userId, stream) {
     const call = peer.call(userId, stream)//create a call
     const span= document.createElement('span')
     const video = document.createElement('video')
     call.on('stream', userVideoStream => {
-      // add new vieo
+      // add new vieo   
       addvideo(span,video, userVideoStream)
     })
     call.on('close', () => {
@@ -55,6 +55,15 @@ function connectToNewUser(userId, stream) {
   
     peers[userId] = call
   }
+function makeid(length) {
+    var text = "";
+    var possible = "ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz0123456789";
+
+    for (var i = 0; i < length; i++)
+        text += possible.charAt(Math.floor(Math.random() * possible.length));
+
+    return text;
+}
 function addvideo(sp, video, stream) {
     x = (check.includes(stream['id']))
     if (!x) {
@@ -63,7 +72,7 @@ function addvideo(sp, video, stream) {
         video.addEventListener('loadedmetadata', () => {
             video.play()
         })
-        sp.innerHTML = 'User number ' + (check.indexOf(stream['id']) + 1)
+        sp.innerHTML = 'User id ' + makeid(6)
         sp.id = stream['id']
         u_id++;
         videoGrid.append(sp)
