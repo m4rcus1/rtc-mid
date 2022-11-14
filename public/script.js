@@ -72,7 +72,7 @@ function addvideo(sp, video, stream) {
         video.addEventListener('loadedmetadata', () => {
             video.play()
         })
-        sp.innerHTML = 'User id'+ stream['id'].slice(0,5)
+        sp.innerHTML = 'User id '+ stream['id'].slice(0,5)
         sp.id = stream['id']
         u_id++;
         videoGrid.append(sp)
