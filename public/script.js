@@ -3,15 +3,13 @@ const videoGrid = document.getElementById('video_call')
 const peer = new Peer(undefined)
 const myVideo = document.createElement('video')
 const mySpan = document.createElement('span')
-let u_id = 1
-myVideo.muted = true
+// myVideo.muted = true
 const peers = {}
 let check = []
-console.log(id)
 
-socket.on('user-connected', userId => {
-    console.log("user id:" + userId)
-})
+// socket.on('user-connected', userId => {
+//     console.log("user id:" + userId)
+// })
 navigator.mediaDevices.getUserMedia({
     video: true,
     audio: true
@@ -23,12 +21,12 @@ navigator.mediaDevices.getUserMedia({
         const video = document.createElement('video')
         const span = document.createElement('span')
         call.on('stream', function (userVideoStream) {
-            addvideo(span, video, userVideoStream)
+            addvideo(span, video, userVideoStream)//User 1 on orther user view
         })
     })
     socket.on('user-connected', userId => {
         //send a message to server that i am new user
-        connectToNewUser(userId, stream)
+        connectToNewUser(userId, stream)//orther user view
     })
 })
 socket.on('user-disconnected', userId => {
@@ -55,15 +53,6 @@ function connectToNewUser(userId, stream) {
   
     peers[userId] = call
   }
-function makeid(length) {
-    var text = "";
-    var possible = "ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz0123456789";
-
-    for (var i = 0; i < length; i++)
-        text += possible.charAt(Math.floor(Math.random() * possible.length));
-
-    return text;
-}
 function addvideo(sp, video, stream) {
     x = (check.includes(stream['id']))
     if (!x) {
@@ -74,7 +63,6 @@ function addvideo(sp, video, stream) {
         })
         sp.innerHTML = 'User id '+ stream['id'].slice(0,5)
         sp.id = stream['id']
-        u_id++;
         videoGrid.append(sp)
         sp.append(video);
     }
